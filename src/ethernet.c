@@ -10,7 +10,26 @@
  * @param buf 要处理的数据包
  */
 void ethernet_in(buf_t *buf) {
-    // TO-DO
+    // 1. 检查数据包长度是否至少包含以太网头部
+    if (buf->len < sizeof(ether_hdr_t)) {
+        return;  // 数据包太短，丢弃
+    }
+
+    // 2. 获取以太网头部
+    ether_hdr_t *hdr = (ether_hdr_t *)buf->data;
+
+    // 3. 将协议类型从网络字节序转换为主机字节序
+    uint16_t protocol = swap16(hdr->protocol16);
+
+    // 4. 保存源MAC地址（因为后面会移除头部）
+    uint8_t src_mac[NET_MAC_LEN];
+    memcpy(src_mac, hdr->src, NET_MAC_LEN);
+
+    // 5. 移除以太网头部，让上层协议处理载荷数据
+    buf_remove_header(buf, sizeof(ether_hdr_t));
+
+    // 6. 将数据包传递给上层协议处理
+    net_in(buf, protocol, src_mac);
 }
 /**
  * @brief 处理一个要发送的数据包
@@ -20,7 +39,16 @@ void ethernet_in(buf_t *buf) {
  * @param protocol 上层协议
  */
 void ethernet_out(buf_t *buf, const uint8_t *mac, net_protocol_t protocol) {
-    // TO-DO
+    // 46 byte check
+    if (buf->len < ETHERNET_MIN_TRANSPORT_UNIT) {
+        buf_add_padding(buf, ETHERNET_MIN_TRANSPORT_UNIT - buf->len);
+    }
+    buf_add_header(buf, sizeof(ether_hdr_t));
+    ether_hdr_t *hdr = (ether_hdr_t *)buf->data;
+    memcpy(hdr->dst, mac, NET_MAC_LEN);
+    memcpy(hdr->src, net_if_mac, NET_MAC_LEN);
+    hdr->protocol16 = swap16((uint16_t)protocol);
+    driver_send(buf);
 }
 /**
  * @brief 初始化以太网协议
