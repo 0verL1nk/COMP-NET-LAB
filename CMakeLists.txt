@@ -41,6 +41,13 @@ add_executable(web_server
 target_link_libraries(web_server ${PCAP})
 target_compile_definitions(web_server PUBLIC HTTP_RESOURCE_DIR="${HTTP_RESOURCE_DIR}" ICMP TCP)
 
+add_executable(ping_app
+    ${DIR_SRCS}
+    ./app/ping_app.c
+)
+target_link_libraries(ping_app ${PCAP})
+target_compile_definitions(ping_app PRIVATE ICMP)
+
 set(TEST_FIX_SOURCE 
     testing/faker/driver.c 
     testing/global.c
