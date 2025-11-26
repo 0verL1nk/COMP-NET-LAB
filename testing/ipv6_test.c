@@ -232,12 +232,17 @@ int main(int argc, char *argv[]) {
         check_log();
         ret = check_pcap() ? 1 : 0;
         
+        // 注意: pcap_close() 已经在 check_pcap() 中关闭了 pcap_out 和 pcap_demo
+        // 只需要关闭 log 文件
         if (demo_log) fclose(demo_log);
         if (out_log) fclose(out_log);
-        if (pcap_demo) fclose(pcap_demo);
-        if (pcap_out) fclose(pcap_out);
+        // pcap 文件已被 pcap_close 关闭，不要再 fclose
     } else {
         PRINT_WARN("Some demo files not found, skipping verification\n");
+        if (demo_log) fclose(demo_log);
+        if (out_log) fclose(out_log);
+        if (pcap_out) fclose(pcap_out);
+        if (pcap_demo) fclose(pcap_demo);
         ret = 0;
     }
     
