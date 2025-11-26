@@ -13,6 +13,7 @@ else()
 endif()
 
 set(HTTP_RESOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/app/resource)
+set(FTP_ROOT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/app/ftp_root)
 
 add_compile_options(-Wall -g)
 # set(EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_SOURCE_DIR}/test) 
@@ -47,6 +48,13 @@ add_executable(ping_app
 )
 target_link_libraries(ping_app ${PCAP})
 target_compile_definitions(ping_app PRIVATE ICMP)
+
+add_executable(ftp_server
+    ${DIR_SRCS}
+    ./app/ftp_server.c
+)
+target_link_libraries(ftp_server ${PCAP})
+target_compile_definitions(ftp_server PUBLIC FTP_ROOT_DIR="${FTP_ROOT_DIR}" ICMP TCP)
 
 set(TEST_FIX_SOURCE 
     testing/faker/driver.c 

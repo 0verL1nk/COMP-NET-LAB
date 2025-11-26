@@ -1,0 +1,5 @@
+Hello World!
+This is a sample text file for FTP testing.
+File transfer test - line 3.
+文件传输测试 - 第四行（UTF-8 中文）。
+End of file.
