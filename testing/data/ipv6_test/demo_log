@@ -1,0 +1,41 @@
+driver opened
+=== IPv6 Dual-Stack Test Suite ===
+Local IPv6 Address: fe80:0000:0000:0000:1322:33ff:fe44:5566
+Local MAC Address: 11:22:33:44:55:66
+
+=== IPv6 Address Utility Tests ===
+Unspecified address type: 0 (expected 0)
+Loopback address type: 1 (expected 1)
+Multicast address type: 2 (expected 2)
+Link-local address type: 3 (expected 3)
+IPv4-mapped address type: 5 (expected 5)
+Is IPv4-mapped: 1 (expected 1)
+Is link-local IPv4-mapped: 0 (expected 0)
+Extracted IPv4: 192.168.1.1 (expected 192.168.1.1)
+Mapped IPv6: ::ffff:10.0.0.1
+Address equal test: 1 (expected 1)
+Address not equal test: 0 (expected 0)
+
+=== IPv6 Header Tests ===
+Version: 6 (expected 6)
+Traffic Class: 0xAB (expected 0xAB)
+Flow Label: 0x12345 (expected 0x12345)
+
+=== ICMPv6 Checksum Tests ===
+Calculated checksum: 0xB682
+
+=== IPv6 Packet Tests ===
+Sending IPv6 packet to fe80:0000:0000:0000:0000:0000:0000:0001
+Payload length: 12 bytes
+<====== arp table =======>
+<====== arp buf =======>
+
+=== Packet Processing ===
+
+Round 01 -----------------------------
+Ethernet type: 0x86DD
+IPv6 packet received
+<====== arp table =======>
+<====== arp buf =======>
+
+driver closed

@@ -10,10 +10,16 @@
 typedef enum net_protocol {
     NET_PROTOCOL_ARP = 0x0806,
     NET_PROTOCOL_IP = 0x0800,
+    NET_PROTOCOL_IPV6 = 0x86DD,  // IPv6 以太网类型
 #ifdef ICMP
     NET_PROTOCOL_ICMP = 1,
 #else
     NET_PROTOCOL_ICMP = 0xff,
+#endif
+#ifdef ICMPV6
+    NET_PROTOCOL_ICMPV6 = 58,   // ICMPv6
+#else
+    NET_PROTOCOL_ICMPV6 = 0xfe,
 #endif
 #ifdef UDP
     NET_PROTOCOL_UDP = 17,

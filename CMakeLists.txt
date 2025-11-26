@@ -98,6 +98,21 @@ add_executable(arp_test
 target_link_libraries(arp_test ${PCAP})
 target_compile_definitions(arp_test PUBLIC TEST)
 
+add_executable(ipv6_test
+    testing/ipv6_test.c
+    src/ethernet.c
+    src/arp.c
+    src/ip.c
+    src/ipv6.c
+    src/icmpv6.c
+    testing/faker/icmp.c
+    testing/faker/udp.c
+    ${TEST_FIX_SOURCE}
+    ${EXTRA_FILE}
+)
+target_link_libraries(ipv6_test ${PCAP})
+target_compile_definitions(ipv6_test PUBLIC TEST IPV6 ICMPV6 ICMP UDP)
+
 add_executable(ip_test
     testing/ip_test.c
     src/ethernet.c
@@ -203,6 +218,11 @@ add_test(
 add_test(
     NAME tcp_test
     COMMAND $<TARGET_FILE:tcp_test> ${CMAKE_CURRENT_LIST_DIR}/testing/data/tcp_test
+)
+
+add_test(
+    NAME ipv6_test
+    COMMAND $<TARGET_FILE:ipv6_test> ${CMAKE_CURRENT_LIST_DIR}/testing/data/ipv6_test
 )
 
 message("Executable files is in ${EXECUTABLE_OUTPUT_PATH}.")

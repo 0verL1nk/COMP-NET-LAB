@@ -5,8 +5,12 @@
 #include "ethernet.h"
 #include "icmp.h"
 #include "ip.h"
+#include "ipv6.h"
 #include "tcp.h"
 #include "udp.h"
+#ifdef ICMPV6
+#include "icmpv6.h"
+#endif
 
 /**
  * @brief 协议表 <协议号,处理程序>的容器
@@ -43,8 +47,14 @@ int net_init() {
     ethernet_init();
     arp_init();
     ip_init();
+#ifdef IPV6
+    ipv6_init();
+#endif
 #ifdef ICMP
     icmp_init();
+#endif
+#ifdef ICMPV6
+    icmpv6_init();
 #endif
 #ifdef UDP
     udp_init();
